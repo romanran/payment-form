@@ -2,15 +2,17 @@
   <form class="cf-grid">
     <div class="cf-grid__row">
       <div class="cf-grid__cell">
-        <PFInput :valid="formValidation.name" v-model="form1.name" name="name">First Name</PFInput>
+        <PFInput :valid="formValidation.name" v-model="form1.name" name="name" placeholder="Elon">First Name</PFInput>
       </div>
       <div class="cf-grid__cell">
-        <PFInput :valid="formValidation.surname" v-model="form1.surname" name="surname">Last name</PFInput>
+        <PFInput :valid="formValidation.surname" v-model="form1.surname" name="surname" placeholder="Musk">Last name
+        </PFInput>
       </div>
     </div>
     <div class="cf-grid__row">
       <div class="cf-grid__cell">
-        <PFInput :valid="formValidation.email" v-model="form1.email" name="email">E-mail</PFInput>
+        <PFInput :valid="formValidation.email" v-model="form1.email" name="email" placeholder="elon@spacex.com">E-mail
+        </PFInput>
       </div>
     </div>
     <div class="cf-grid__row">
@@ -19,12 +21,14 @@
 
       </div>
       <div class="cf-grid__cell">
-        <PFInput :valid="formValidation.zip_code" v-model="form1.zip_code" name="zipcode">Postal Code</PFInput>
+        <PFInput :valid="formValidation.zip_code" v-model="form1.zip_code" name="zipcode" placeholder="1001">Postal Code
+        </PFInput>
       </div>
     </div>
     <div class="cf-grid__row">
       <div class="cf-grid__cell">
-        <PFInput :valid="formValidation.phone_number" v-model="form1.phone_number" name="surname">Phone Number</PFInput>
+        <PFInput :valid="formValidation.phone_number" v-model="form1.phone_number" name="surname" placeholder="Elon">Phone
+          Number</PFInput>
       </div>
     </div>
   </form>

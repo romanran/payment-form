@@ -1,10 +1,12 @@
 <template>
-    <label :class="props.valid !== true && 'invalid'">
+    <label :class="props.valid !== true ? 'invalid' : ''">
         <span>
             <slot></slot>
         </span>
-        <input :type="props.type || 'text'" v-bind="props.modelValue" :name="props.name" :required="required"
-            @change="$emit('update:modelValue', ($event.target as HTMLInputElement).value)" />
+        <input :type="props.type || 'text'" :value="props.modelValue || ''" :name="props.name"
+            :placeholder="props.placeholder" :required="required"
+            @change="$emit('update:modelValue', ($event?.target as HTMLInputElement)?.value || '')" />
+        <span class="input-error-message" v-if="props.valid !== true">{{ props.valid }}</span>
     </label>
 </template>
 
@@ -15,6 +17,7 @@ const props = defineProps<{
     modelValue: number | string,
     name: string,
     type?: string
+    placeholder?: string
 }>()
 
 </script>

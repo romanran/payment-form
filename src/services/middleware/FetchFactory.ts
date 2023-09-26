@@ -18,14 +18,14 @@ export class FetchFactory {
   }
   async post(params?: Params): Promise<unknown> {
     try {
-      // const response = await fetch(this.url, {
-      //   ...params,
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-type': 'application/json; charset=UTF-8'
-      //   }
-      // })
-      // return response.json()
+      const response = await fetch(this.url, {
+        ...params,
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      })
+      return response.json()
     } catch (err) {
       console.log(err)
     }

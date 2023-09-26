@@ -49,7 +49,7 @@ export const useFormStore = defineStore('form', () => {
       const key = value[0]
       const isValid = await checkRules(key, value[1])
       formValidation.value[key] = isValid
-      if (!isValid) {
+      if (isValid !== true) {
         formValid.value = false
       }
     }
@@ -61,6 +61,7 @@ export const useFormStore = defineStore('form', () => {
       formValid.value = true
       await Promise.all(Object.entries(form2.value).map((value) => check(value as [CheckoutFormKeys, string])))
     }
+
     return formValid.value
   }
   return { form1, form2, submitForm, submitting, formValid, formValidation, validateForm }
