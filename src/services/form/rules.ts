@@ -1,5 +1,7 @@
 import { CheckoutForm_1_Keys, CheckoutForm_2_Keys } from '@/models/checkoutForm'
 export type CheckoutFormKeys = CheckoutForm_1_Keys | CheckoutForm_2_Keys
+import cardValidator from 'card-validator'
+import isMatch from 'date-fns/isMatch'
 
 function isValidEmail(email: string) {
   const regx = new RegExp(
@@ -15,6 +17,7 @@ const onlyLetters = /^[\p{L}\s-]+$/u
 function checkMinLength(value: string, length: number = 3) {
   return value.length >= length
 }
+
 export const rules = {
   [CheckoutForm_1_Keys.NAME]: [
     async (value: string) => {
@@ -75,29 +78,25 @@ export const rules = {
   ],
   [CheckoutForm_2_Keys.CARD]: [
     async (value: string) => {
-      return parseInt(value) > 12 || 'Invalid zip-code'
+      return cardValidator.number(value) || 'Invalid card number'
     },
     async (value: string) => {
       value = value.trim()
-      return checkMinLength(value) || 'Field too short'
+      return checkMinLength(value, 1) || 'Field cannot be empty'
     }
   ],
   [CheckoutForm_2_Keys.CODE]: [
     async (value: string) => {
-      return parseInt(value) > 12 || 'Invalid zip-code'
-    },
-    async (value: string) => {
-      value = value.trim()
-      return checkMinLength(value) || 'Field too short'
+      return value.length === 3 || 'Code should be 3 numbers '
     }
   ],
   [CheckoutForm_2_Keys.DATE]: [
     async (value: string) => {
-      return parseInt(value) > 12 || 'Invalid zip-code'
+      return isMatch(value, 'MM/yy') || 'Invalid expiration date'
     },
     async (value: string) => {
       value = value.trim()
-      return checkMinLength(value) || 'Field too short'
+      return checkMinLength(value, 4) || 'Field too short'
     }
   ]
 }

@@ -11,7 +11,8 @@
         </PFInput>
       </div>
       <div class="cf-grid__cell">
-        <PFInput :valid="formValidation.date" v-model="form2.date" name="Payment_Card_ExpDate_Date">Expiration date
+        <PFInput type="month" :valid="formValidation.date" v-model="form2.date" name="Payment_Card_ExpDate_Date">
+          Expiration date
         </PFInput>
       </div>
     </div>

@@ -1,5 +1,8 @@
 body {
   min-height: 100vh;
+  background: $background-c;
+  font-family: Lato, Calibri, Arial, sans-serif;
+  box-sizing: border-box;
   @media (min-width: 1024px) {
     display: flex;
     place-items: center;

@@ -1,13 +1,13 @@
 <template>
-    <label :class="props.valid !== true ? 'invalid' : ''">
-        <span>
+    <div class="pf-input" :class="props.valid !== true ? 'invalid' : ''">
+        <label class="pf-input__label">
             <slot></slot>
-        </span>
-        <input :type="props.type || 'text'" :value="props.modelValue || ''" :name="props.name"
+        </label>
+        <input class="pf-input__input" :type="props.type || 'text'" :value="props.modelValue || ''" :name="props.name"
             :placeholder="props.placeholder" :required="required"
             @change="$emit('update:modelValue', ($event?.target as HTMLInputElement)?.value || '')" />
-        <span class="input-error-message" v-if="props.valid !== true">{{ props.valid }}</span>
-    </label>
+    </div>
+    <span class="pf-input__error" v-if="props.valid !== true">{{ props.valid }}</span>
 </template>
 
 <script setup lang="ts">
@@ -23,7 +23,39 @@ const props = defineProps<{
 </script>
 
 <style lang="scss">
-.invalid {
-    border: 1px solid red;
+@import "@/styles/settings/colors.scss";
+@import "@/styles/settings/variables.scss";
+
+.pf-input {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: $border-radius;
+    border-bottom: 2px solid $border-c;
+}
+
+.pf-input__label {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.pf-input__input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.invalid.pf-input {
+    border-bottom: 2px solid $error-c;
+}
+
+
+.pf-input__error {
+    display: block;
+    margin-top: $margin / 2;
+    font-size: 12px;
+    color: $error-c;
 }
 </style>

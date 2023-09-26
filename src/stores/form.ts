@@ -3,6 +3,8 @@ import { defineStore } from 'pinia'
 import type { CheckoutForm_1, CheckoutForm_1_Keys, CheckoutForm_2 } from '@/models/checkoutForm'
 import { FetchFactory } from '@/services/middleware/FetchFactory'
 import { rules, checkRules, type CheckoutFormKeys } from '@/services/form/rules'
+import { useCheckoutStore } from './checkout'
+const checkoutStore = useCheckoutStore()
 
 const formApi = new FetchFactory('https://jsonplaceholder.typicode.com/posts')
 
@@ -36,7 +38,7 @@ export const useFormStore = defineStore('form', () => {
 
   async function submitForm() {
     const payload = {
-      form: { ...form1.value, ...form2.value }
+      form: { ...form1.value, ...form2.value, order: checkoutStore.order }
     }
     submitting.value = true
     const response = await formApi.post({ body: JSON.stringify(payload) })
