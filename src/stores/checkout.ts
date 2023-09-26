@@ -1,5 +1,6 @@
 import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
+
 export const useCheckoutStore = defineStore('checkout', () => {
   const total = computed({
     get(): number {

@@ -1,26 +1,28 @@
 <template>
-  <div>
-    <div class="cf-form">
-      <div>
+  <div class="wrap">
+    <h2 class="pf-form__title" v-show="currentStep == 1">1. Personal information</h2>
+    <h2 class="pf-form__title" v-show="currentStep == 2">2. Payment details</h2>
+    <div class="pf-form">
+      <div class="pf-form__form">
         <PFFirstForm v-show="currentStep == 1"></PFFirstForm>
         <PFSecondForm v-show="currentStep == 2"></PFSecondForm>
-        <div class="cf-form__button">
+        <div class="pf-form__button">
           <PFButton v-show="currentStep == 1" @click="validateForm(1)"><template #icon>🛒</template>Next</PFButton>
           <PFButton v-show="currentStep == 2" @click="validateForm(2)"><template #icon>🛒</template>complete purchase
           </PFButton>
-          <button class="cf-form__prev" v-show="currentStep == 2" @click="currentStep = 1">← previous step
+          <button class="pf-form__prev" v-show="currentStep == 2" @click="currentStep = 1">← previous step
           </button>
         </div>
       </div>
-      <div>
-        <PFSummary></PFSummary>
+      <div class="pf-form__details">
+        <PFOrderDetails></PFOrderDetails>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import PFSummary from '@/components/PFCheckoutForm/PFSummary.vue'
+import PFOrderDetails from '@/components/PFCheckoutForm/PFOrderDetails.vue'
 import PFFirstForm from '@/components/PFCheckoutForm/PFFirstForm.vue'
 import PFSecondForm from '@/components/PFCheckoutForm/PFSecondForm.vue'
 import { useFormStore } from '@/stores/form'
@@ -44,18 +46,46 @@ async function validateForm(step: 1 | 2) {
 <style lang="scss">
 @import "@/styles/settings/variables.scss";
 
-.cf-form__button {
+.pf-form {
+  @media screen and (min-width: 1024px) {
+    display: flex;
+    width: 100%;
+    max-width: 1080px;
+  }
+}
+
+.pf-form__form {
+  padding-right: (2 * $margin);
+  width: 100%;
+}
+
+.pf-form__button {
   text-align: center;
   margin-top: (4 * $margin);
 }
 
-.cf-form__prev {
+.pf-form__prev {
   font-weight: bold;
   margin-top: 2 * $margin;
   color: #999;
 
   &:hover {
     color: #888;
+  }
+}
+
+.pf-form__details {
+  margin-top: 2 * $margin;
+
+  @media screen and (min-width: 1024px) {
+    margin-top: 0;
+
+  }
+}
+
+.pf-form__title {
+  @media screen and (min-width: 1024px) {
+    margin-top: 0;
   }
 }
 </style>

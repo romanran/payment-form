@@ -101,14 +101,10 @@ export const rules = {
   ]
 }
 export async function checkRules(key: keyof typeof rules, value: string) {
-  let isFormValid: string | boolean = true
-
   async function checkRule(rule: (typeof rules)[keyof typeof rules][number]) {
-    const valid = await rule(value)
-    isFormValid = valid !== true ? valid : true
-    return valid
+    return await rule(value)
   }
-  await Promise.all(rules[key].map(checkRule))
+  const isFieldValid = await Promise.all(rules[key].map(await checkRule))
 
-  return isFormValid
+  return isFieldValid[0]
 }

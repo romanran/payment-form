@@ -1,14 +1,15 @@
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { CheckoutForm_1, CheckoutForm_1_Keys, CheckoutForm_2 } from '@/models/checkoutForm'
+import type { CheckoutForm_1, CheckoutForm_2 } from '@/models/checkoutForm'
 import { FetchFactory } from '@/services/middleware/FetchFactory'
-import { rules, checkRules, type CheckoutFormKeys } from '@/services/form/rules'
+import { checkRules, type CheckoutFormKeys } from '@/services/form/rules'
+
 import { useCheckoutStore } from './checkout'
-const checkoutStore = useCheckoutStore()
 
 const formApi = new FetchFactory('https://jsonplaceholder.typicode.com/posts')
 
 export const useFormStore = defineStore('form', () => {
+  const checkoutStore = useCheckoutStore()
   const form1 = ref<CheckoutForm_1>({
     name: '',
     surname: '',
@@ -50,7 +51,9 @@ export const useFormStore = defineStore('form', () => {
     async function check(value: [CheckoutFormKeys, string]) {
       const key = value[0]
       const isValid = await checkRules(key, value[1])
-      formValidation.value[key] = isValid
+      console.log(key, isValid)
+
+      formValidation.value[key] = isValid as string | boolean
       if (isValid !== true) {
         formValid.value = false
       }

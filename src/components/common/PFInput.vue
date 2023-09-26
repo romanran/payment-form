@@ -54,7 +54,7 @@ const props = defineProps<{
 
 .pf-input__error {
     display: block;
-    margin-top: $margin / 2;
+    margin-top: $margin * 0.5;
     font-size: 12px;
     color: $error-c;
 }

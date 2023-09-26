@@ -5,8 +5,31 @@
 .cf-grid__row {
   display: flex;
   justify-content: stretch;
-  margin: ($margin * 2) (-$margin);
+  flex-direction: column;
+  &:first-child {
+    margin-top: 0;
+  }
+  margin: 0 (-$margin);
+
+  @media screen and (min-width: 480px) {
+    flex-direction: row;
+    margin: ($margin * 2) (-$margin);
+  }
 }
 .cf-grid__cell {
-  margin: 0 $margin;
+  margin: $margin;
+  width: 100%;
+  min-width: 0px;
+  @media screen and (min-width: 480px) {
+    margin: 0 $margin;
+  }
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1020px;
+  padding: 0 $margin * 2;
+  @media screen and (min-width: 1024px) {
+    padding: initial;
+  }
 }
