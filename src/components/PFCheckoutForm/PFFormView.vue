@@ -7,8 +7,8 @@
         <PFFirstForm v-show="currentStep == 1"></PFFirstForm>
         <PFSecondForm v-show="currentStep == 2"></PFSecondForm>
         <div class="pf-form__button">
-          <PFButton v-show="currentStep == 1" @click="validateForm(1)"><template #icon>🛒</template>Next</PFButton>
-          <PFButton v-show="currentStep == 2" @click="validateForm(2)"><template #icon>🛒</template>complete purchase
+          <PFButton v-show="currentStep == 1" @click="validateForm()"><template #icon>🛒</template>Next</PFButton>
+          <PFButton v-show="currentStep == 2" @click="validateForm()"><template #icon>🛒</template>complete purchase
           </PFButton>
           <button class="pf-form__prev" v-show="currentStep == 2" @click="currentStep = 1">← previous step
           </button>
@@ -32,13 +32,12 @@ import PFButton from '../common/PFButton.vue'
 const currentStep = ref<1 | 2>(1)
 const store = useFormStore()
 
-async function validateForm(step: 1 | 2) {
-  const valid = await store.validateForm(step)
-  if (valid && currentStep.value === 1) {
-    currentStep.value = 2
+async function validateForm() {
+  if (currentStep.value === 2) {
+    await store.validateForm(1) && await store.validateForm(2) && store.submitForm()
   }
-  if (valid && currentStep.value === 2) {
-    store.submitForm()
+  if (currentStep.value === 1 && await store.validateForm(1)) {
+    currentStep.value = 2
   }
 }
 </script>

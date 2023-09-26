@@ -51,7 +51,6 @@ export const useFormStore = defineStore('form', () => {
     async function check(value: [CheckoutFormKeys, string]) {
       const key = value[0]
       const isValid = await checkRules(key, value[1])
-      console.log(key, isValid)
 
       formValidation.value[key] = isValid as string | boolean
       if (isValid !== true) {

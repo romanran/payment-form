@@ -3,9 +3,14 @@
         <label class="pf-input__label">
             <slot></slot>
         </label>
-        <input class="pf-input__input" :type="props.type || 'text'" :value="props.modelValue || ''" :name="props.name"
-            :placeholder="props.placeholder" :required="required"
+        <input v-if="props.type !== 'select'" class="pf-input__input" :type="props.type || 'text'"
+            :value="props.modelValue || ''" :name="props.name" :placeholder="props.placeholder" :required="required"
             @change="$emit('update:modelValue', ($event?.target as HTMLInputElement)?.value || '')" />
+        <select v-else class="pf-input__input" :value="props.modelValue || ''" :name="props.name"
+            :placeholder="props.placeholder" :required="required"
+            @change="$emit('update:modelValue', ($event?.target as HTMLInputElement)?.value || '')">
+            <slot name="options"></slot>
+        </select>
     </div>
     <span class="pf-input__error" v-if="props.valid !== true">{{ props.valid }}</span>
 </template>
@@ -17,7 +22,9 @@ const props = defineProps<{
     modelValue: number | string,
     name: string,
     type?: string
-    placeholder?: string
+    placeholder?: string,
+    options?: unknown[],
+    optionKey?: string
 }>()
 
 </script>

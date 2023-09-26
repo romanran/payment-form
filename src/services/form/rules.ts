@@ -18,7 +18,7 @@ function checkMinLength(value: string, length: number = 3) {
   return value.length >= length
 }
 
-export const rules = {
+export const rules: { [key in CheckoutFormKeys]: Function[] } = {
   [CheckoutForm_1_Keys.NAME]: [
     async (value: string) => {
       value = value.trim()
@@ -64,7 +64,7 @@ export const rules = {
     },
     async (value: string) => {
       value = value.trim()
-      return checkMinLength(value) || 'Field too short'
+      return checkMinLength(value, 1) || "Field can't be empty"
     }
   ],
   [CheckoutForm_1_Keys.ZIP]: [
@@ -73,12 +73,12 @@ export const rules = {
     },
     async (value: string) => {
       value = value.trim()
-      return checkMinLength(value, 0) || 'Field too short'
+      return checkMinLength(value, 1) || "Field can't be empty"
     }
   ],
   [CheckoutForm_2_Keys.CARD]: [
     async (value: string) => {
-      return cardValidator.number(value) || 'Invalid card number'
+      return cardValidator.number(value).isValid || 'Invalid card number'
     },
     async (value: string) => {
       value = value.trim()
@@ -92,7 +92,7 @@ export const rules = {
   ],
   [CheckoutForm_2_Keys.DATE]: [
     async (value: string) => {
-      return isMatch(value, 'MM/yy') || 'Invalid expiration date'
+      return isMatch(value, 'yyyy-MM') || 'Invalid expiration date'
     },
     async (value: string) => {
       value = value.trim()
@@ -100,11 +100,23 @@ export const rules = {
     }
   ]
 }
+Object.keys(rules).forEach((ruleKey: string) => {
+  rules[ruleKey as keyof typeof rules].unshift(async (value: string) => {
+    value = value.trim()
+    return checkMinLength(value, 1) || "Field can't be empty"
+  })
+})
+
 export async function checkRules(key: keyof typeof rules, value: string) {
   async function checkRule(rule: (typeof rules)[keyof typeof rules][number]) {
     return await rule(value)
   }
   const isFieldValid = await Promise.all(rules[key].map(await checkRule))
 
-  return isFieldValid[0]
+  return isFieldValid.reduce((acc, value) => {
+    if (value !== true) {
+      acc = value
+    }
+    return acc
+  }, true)
 }
